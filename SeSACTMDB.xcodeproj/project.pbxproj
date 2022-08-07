@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1804C030289E5FE300E25353 /* OverviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1804C02F289E5FE300E25353 /* OverviewTableViewCell.swift */; };
 		1876B4D82899F6E2002543B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B4D72899F6E2002543B6 /* AppDelegate.swift */; };
 		1876B4DA2899F6E2002543B6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B4D92899F6E2002543B6 /* SceneDelegate.swift */; };
 		1876B4DC2899F6E2002543B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B4DB2899F6E2002543B6 /* ViewController.swift */; };
@@ -19,16 +20,18 @@
 		1876B4FF289AC14B002543B6 /* Trend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1876B4FE289AC14B002543B6 /* Trend.storyboard */; };
 		1876B507289AC8ED002543B6 /* TrendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B506289AC8ED002543B6 /* TrendViewController.swift */; };
 		1876B51B289BB38A002543B6 /* TrendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B51A289BB38A002543B6 /* TrendCollectionViewCell.swift */; };
-		1876B51D289BB644002543B6 /* PosterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1876B51C289BB644002543B6 /* PosterView.xib */; };
-		1876B525289BBDAB002543B6 /* PosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B524289BBDAB002543B6 /* PosterView.swift */; };
 		1876B528289BC237002543B6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1876B527289BC237002543B6 /* Alamofire */; };
 		1876B52B289BC242002543B6 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1876B52A289BC242002543B6 /* SwiftyJSON */; };
 		1876B52E289BC250002543B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1876B52D289BC250002543B6 /* Kingfisher */; };
 		1876B530289BFCFC002543B6 /* TrendDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1876B52F289BFCFC002543B6 /* TrendDetail.storyboard */; };
 		1876B532289BFD18002543B6 /* TrendDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B531289BFD18002543B6 /* TrendDetailViewController.swift */; };
+		1876B53D289C209A002543B6 /* CastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B53B289C209A002543B6 /* CastTableViewCell.swift */; };
+		18E95EF5289EF803009E748D /* Media.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E95EF4289EF803009E748D /* Media.storyboard */; };
+		18E95EF7289EF876009E748D /* WebMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E95EF6289EF876009E748D /* WebMediaViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1804C02F289E5FE300E25353 /* OverviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewTableViewCell.swift; sourceTree = "<group>"; };
 		1876B4D42899F6E2002543B6 /* SeSACTMDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACTMDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1876B4D72899F6E2002543B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1876B4D92899F6E2002543B6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,10 +46,11 @@
 		1876B4FE289AC14B002543B6 /* Trend.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Trend.storyboard; sourceTree = "<group>"; };
 		1876B506289AC8ED002543B6 /* TrendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendViewController.swift; sourceTree = "<group>"; };
 		1876B51A289BB38A002543B6 /* TrendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendCollectionViewCell.swift; sourceTree = "<group>"; };
-		1876B51C289BB644002543B6 /* PosterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PosterView.xib; sourceTree = "<group>"; };
-		1876B524289BBDAB002543B6 /* PosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterView.swift; sourceTree = "<group>"; };
 		1876B52F289BFCFC002543B6 /* TrendDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TrendDetail.storyboard; sourceTree = "<group>"; };
 		1876B531289BFD18002543B6 /* TrendDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendDetailViewController.swift; sourceTree = "<group>"; };
+		1876B53B289C209A002543B6 /* CastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTableViewCell.swift; sourceTree = "<group>"; };
+		18E95EF4289EF803009E748D /* Media.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Media.storyboard; sourceTree = "<group>"; };
+		18E95EF6289EF876009E748D /* WebMediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebMediaViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,10 +96,12 @@
 				1876B4FE289AC14B002543B6 /* Trend.storyboard */,
 				1876B506289AC8ED002543B6 /* TrendViewController.swift */,
 				1876B51A289BB38A002543B6 /* TrendCollectionViewCell.swift */,
+				18E95EF4289EF803009E748D /* Media.storyboard */,
+				18E95EF6289EF876009E748D /* WebMediaViewController.swift */,
 				1876B52F289BFCFC002543B6 /* TrendDetail.storyboard */,
 				1876B531289BFD18002543B6 /* TrendDetailViewController.swift */,
-				1876B51C289BB644002543B6 /* PosterView.xib */,
-				1876B524289BBDAB002543B6 /* PosterView.swift */,
+				1876B53B289C209A002543B6 /* CastTableViewCell.swift */,
+				1804C02F289E5FE300E25353 /* OverviewTableViewCell.swift */,
 				1876B4E02899F6E4002543B6 /* Assets.xcassets */,
 				1876B4E22899F6E4002543B6 /* LaunchScreen.storyboard */,
 				1876B4E52899F6E4002543B6 /* Info.plist */,
@@ -174,8 +180,8 @@
 				1876B4FF289AC14B002543B6 /* Trend.storyboard in Resources */,
 				1876B4EC2899F7D2002543B6 /* .gitignore in Resources */,
 				1876B4E42899F6E4002543B6 /* LaunchScreen.storyboard in Resources */,
-				1876B51D289BB644002543B6 /* PosterView.xib in Resources */,
 				1876B530289BFCFC002543B6 /* TrendDetail.storyboard in Resources */,
+				18E95EF5289EF803009E748D /* Media.storyboard in Resources */,
 				1876B4E12899F6E4002543B6 /* Assets.xcassets in Resources */,
 				1876B4DF2899F6E2002543B6 /* Main.storyboard in Resources */,
 			);
@@ -191,12 +197,14 @@
 				1876B507289AC8ED002543B6 /* TrendViewController.swift in Sources */,
 				1876B532289BFD18002543B6 /* TrendDetailViewController.swift in Sources */,
 				1876B4DC2899F6E2002543B6 /* ViewController.swift in Sources */,
+				1804C030289E5FE300E25353 /* OverviewTableViewCell.swift in Sources */,
 				1876B4D82899F6E2002543B6 /* AppDelegate.swift in Sources */,
 				1876B4F02899F9BD002543B6 /* Constant.swift in Sources */,
+				18E95EF7289EF876009E748D /* WebMediaViewController.swift in Sources */,
 				1876B4EE2899F890002543B6 /* APIKey.swift in Sources */,
+				1876B53D289C209A002543B6 /* CastTableViewCell.swift in Sources */,
 				1876B51B289BB38A002543B6 /* TrendCollectionViewCell.swift in Sources */,
 				1876B4DA2899F6E2002543B6 /* SceneDelegate.swift in Sources */,
-				1876B525289BBDAB002543B6 /* PosterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

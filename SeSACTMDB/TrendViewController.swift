@@ -13,14 +13,14 @@ import SwiftyJSON
 
 class TrendViewController: UIViewController {
 
-    @IBOutlet weak var trendSearchBar: UISearchBar!
     @IBOutlet weak var trendCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        trendSearchBar.delegate = self
+    
         trendCollectionView.delegate = self
         trendCollectionView.dataSource = self
+        
         
         trendCollectionView.layer.cornerRadius = 10
         trendCollectionView.clipsToBounds = true
@@ -34,14 +34,29 @@ class TrendViewController: UIViewController {
         layer.minimumInteritemSpacing = spacing
         trendCollectionView.collectionViewLayout = layer
         getMedia()
+        designSearchBar()
 
     }
 
     var movieList: [Movie] = []
     var crewList: [Credits] = []
     var castList: [Casts] = []
+    var castAll: [[Casts]] = []
+    var crewAll: [[Credits]] = []
+    var youtubeURL: [Youtube] = []
+    var youtubeAll: [[Youtube]] = []
     
-    
+    func designSearchBar(){
+//        let bounds = UIScreen.main.bounds
+//        let width = bounds.size.width
+//        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width - 28, height: 0))
+//        searchBar.placeholder = "Place holder"
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", image: UIImage(systemName: "list.triangle"))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", image: UIImage(systemName: "magnifyingglass"))
+                                                                // , primaryAction: <#T##UIAction?#>, menu: <#T##UIMenu?#>)
+    }
+ 
     func getMedia(){
         let url = "\(EndPoint.tmdbURL)api_key=\(APIKey.TMDBKEY)"
         
@@ -49,7 +64,7 @@ class TrendViewController: UIViewController {
             switch response.result{
             case .success(let value):
                 let json = JSON(value)
-                print("JSON: \(json)")
+
                 
                 for data in json["results"].arrayValue{
 
@@ -61,14 +76,14 @@ class TrendViewController: UIViewController {
                     let overView = data["overview"].stringValue
                     let backPoster = data["backdrop_path"].stringValue
                     let genreNum = data["genre_ids"][0].intValue
-                    //print("장르숫자\(data["genre_ids"][0].intValue)")
+        
                     guard let rawValue = Genre(rawValue: genreNum) else { return }
                     let genre = "\(rawValue)"
-                    //print("장르글자\(genre)")
+   
                     self.movieList.append(Movie(movieName: name, movieID: id, movieRelease: release, moviePoster: poster, movieVoteAverage: vote, movieGenre: genre, movieBackground: backPoster, overView: overView))
                     
                 }
-                //print(self.movieList[0].movieID)
+                self.getYoutubeURL()
                 self.getCasts()
             case .failure(let error):
                 print(error)
@@ -76,23 +91,21 @@ class TrendViewController: UIViewController {
             }
         }
     }
-    
-
-    
-    
-    
+  
     func getCasts(){
         for i in 0...(movieList.count - 1){
-
             let url = "\(EndPoint.castsURL)\(movieList[i].movieID)/credits?api_key=\(APIKey.TMDBKEY)"
 
             AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
                 switch response.result{
                 case .success(let value):
+                    self.castList.removeAll()
+                    self.crewList.removeAll()
                     let json = JSON(value)
                     //print("JSON: \(json)")
                     
                     for data in json["cast"].arrayValue{
+                        
                         let castName = data["name"].stringValue
                         let castProfile = data["profile_path"].stringValue
                         let char = data["character"].stringValue
@@ -100,19 +113,19 @@ class TrendViewController: UIViewController {
                         self.castList.append(Casts(castName: castName, character: char, profile: castProfile))
                         
                     }
-                    
+                    self.castAll.append(self.castList)
+
                     for data in json["crew"].arrayValue{
 
                         let crewName = data["name"].stringValue
                         let crewProfile = data["profile_path"].stringValue
-                        let job = data["job"].stringValue
+                        let job = data["department"].stringValue
    
                         self.crewList.append(Credits(crewName: crewName, job: job, profile: crewProfile))
-                   
-                        
                     }
-                    self.trendCollectionView.reloadData()
-                    //print("\(self.crewList)크루\(self.castList)")
+                    self.crewAll.append(self.crewList)
+                    
+
 
                 case .failure(let error):
                     print(error)
@@ -121,13 +134,43 @@ class TrendViewController: UIViewController {
             }
 
         }
-
     }
     
+    func getYoutubeURL(){
+        for i in 0...(movieList.count - 1){
+            let url = "\(EndPoint.youtubeURL)\(movieList[i].movieID)/videos?api_key=\(APIKey.TMDBKEY)&language=en-US"
+        
+            AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
+                switch response.result{
+                case .success(let value):
+                    self.youtubeURL.removeAll()
+
+                    let json = JSON(value)
+                    print(json["results"].arrayValue)
+//                    let videoKey = json["results"].arrayValue.map { $0["key"].stringValue }
+//                    print(videoKey)
+                    for data in json["results"].arrayValue{
+
+                       
+                        if data["site"].stringValue == "YouTube"{
+                            let videoKey = data["key"].stringValue
+                            self.youtubeURL.append(Youtube(youtubeURL: videoKey))
+                        }
+                        
+                    }
+                    self.youtubeAll.append( self.youtubeURL)
+
+                    self.trendCollectionView.reloadData()
+
+                case .failure(let error):
+                    print(error)
+
+                }
+            }
+
+        }
+    }
     
-    
-    
-  
 }
 
 
@@ -140,16 +183,14 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendCollectionViewCell.identifier, for: indexPath) as? TrendCollectionViewCell else { return UICollectionViewCell() }
         cell.posterView.layer.cornerRadius = 10
-        cell.posterView.posterImageView.layer.cornerRadius = 10
-        cell.posterView.posterImageView.clipsToBounds = true
-        cell.posterView.posterImageView.backgroundColor = .clear
-        cell.posterView.layer.masksToBounds = false
+        cell.posterView.clipsToBounds = true
+        cell.posterView.backgroundColor = .clear
+        cell.posterView.layer.masksToBounds = true
         cell.backgroundColor = .clear
         cell.posterView.layer.cornerRadius = 10
-        cell.posterView.layer.masksToBounds = false
-        cell.posterView.layer.shadowOpacity = 0.8
-        cell.posterView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cell.posterView.layer.shadowRadius = 5
+        cell.rateView.layer.shadowOpacity = 0.8
+        cell.rateView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        cell.rateView.layer.shadowRadius = 5
         cell.infoView.layer.cornerRadius = 10
         cell.infoView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         cell.rateTextLabel.layer.cornerRadius = 5
@@ -158,45 +199,93 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.rateValueLabel.layer.cornerRadius = 5
         cell.rateValueLabel.clipsToBounds = true
         cell.rateValueLabel.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        cell.releaseLabel.text = movieList[indexPath.row].movieRelease
+        cell.releaseLabel.text = movieList[indexPath.item].movieRelease
         cell.releaseLabel.font = .systemFont(ofSize: 13)
         cell.releaseLabel.textColor = .systemGray
-        cell.genreLabel.text = "#\(movieList[indexPath.row].movieGenre)"
+        cell.genreLabel.text = "#\(movieList[indexPath.item].movieGenre)"
         cell.genreLabel.font = .boldSystemFont(ofSize: 16)
-        let urlPlus = "https://www.themoviedb.org/t/p/w1280/\(movieList[indexPath.row].moviePoster)"
+        let urlPlus = "\(EndPoint.profileURL)\(movieList[indexPath.item].moviePoster)"
         guard let url = URL(string: urlPlus) else { return UICollectionViewCell() }
-        cell.posterView.posterImageView.kf.setImage(with: url)
-        cell.posterView.posterImageView.contentMode = .scaleAspectFill
+        cell.posterView.kf.setImage(with: url)
+        cell.posterView.contentMode = .scaleAspectFill
         cell.infoView.backgroundColor = .white
         cell.rateTextLabel.text = "평점"
         cell.rateTextLabel.textAlignment = .center
         cell.rateTextLabel.textColor = .white
         cell.rateTextLabel.backgroundColor = .black
-        cell.rateValueLabel.text = String(format: "%.1f", movieList[indexPath.row].movieVoteAverage)
+        cell.rateValueLabel.text = String(format: "%.1f", movieList[indexPath.item].movieVoteAverage)
         cell.rateValueLabel.textAlignment = .center
         cell.rateValueLabel.backgroundColor = .white
-        cell.movieNameLabel.text = movieList[indexPath.row].movieName
-        cell.movieCredtisLabel.text = "\(castList[0].castName), \(castList[1].castName), \(castList[2].castName)"
+        cell.movieNameLabel.text = movieList[indexPath.item].movieName
+        cell.clipButton.setImage(UIImage(named: "clip.png"), for: .normal)
+        cell.clipButton.setTitle("", for: .normal)
+        cell.clipButton.backgroundColor = .clear
+        cell.clipButton.tintColor = .black
+        cell.clipButton.contentMode = .scaleAspectFit
+        cell.clipView.backgroundColor = .white
+        cell.clipView.layer.cornerRadius = cell.clipView.frame.width / 2
+
+        
+       
+        if indexPath.item <= castAll.count - 1{
+               var index = 0
+               for castName in 0..<castAll[indexPath.item].count {
+                   if index == 0 {
+                       cell.movieCredtisLabel.text = castAll[indexPath.item][castName].castName
+                   } else {
+                       cell.movieCredtisLabel.text! += ", \(castAll[indexPath.item][castName].castName)"
+                   }
+                   index += 1
+               }
+        }
+        
         cell.movieCredtisLabel.textColor = .systemGray
-        cell.showDetailButton.setTitle("Details       ", for: .normal)
-        cell.showDetailButton.backgroundColor = .clear
+        cell.showDetailLabel.text = "Details"
+        cell.showdetailImageView.image = UIImage(systemName: "chevron.right")
+        cell.showdetailImageView.tintColor = .black
+        cell.blackLineView.backgroundColor = .black
+ 
+        cell.clipButton.addTarget(self, action: #selector(clipButtonTapped), for: .touchUpInside)
+        cell.clipButton.tag = indexPath.row
         
         return cell
     }
     
+    @objc func clipButtonTapped(sender: UIButton){
+        
+        let MediaStoryBoard = UIStoryboard(name: "Media", bundle: nil)
+        guard let webMediaViewController = MediaStoryBoard.instantiateViewController(withIdentifier:  WebMediaViewController.identifier) as? WebMediaViewController else {
+            return
+        }
+        webMediaViewController.youtubeNum = sender.tag
+        webMediaViewController.youtubeAll = youtubeAll
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.pushViewController(webMediaViewController, animated: true)
+        self.navigationItem.backButtonTitle = ""
+     
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.item
-        UserDefaults.standard.set(index, forKey: "index")
+        
         
         print(index)
         let trendDetailStoryBoard = UIStoryboard(name: "TrendDetail", bundle: nil)
         guard let trendDetailViewController = trendDetailStoryBoard.instantiateViewController(withIdentifier:  TrendDetailViewController.identifier) as? TrendDetailViewController else {
             return
         }
+
         let navigationController = UINavigationController(rootViewController: trendDetailViewController)
         navigationController.modalPresentationStyle = .fullScreen
         trendDetailViewController.movieDetail = movieList
+        trendDetailViewController.castDetail = castAll
+        trendDetailViewController.creditDetail = crewAll
+        trendDetailViewController.movieNum = index
+        self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.pushViewController(trendDetailViewController, animated: true)
+        self.navigationItem.backButtonTitle = ""
+
+
     }
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
