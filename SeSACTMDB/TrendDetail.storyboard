@@ -71,20 +71,30 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IEC-vx-GF8">
-                                                    <rect key="frame" x="20.5" y="5" width="373" height="87"/>
+                                                    <rect key="frame" x="20.5" y="24.5" width="373" height="48.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eAT-o6-YBD">
+                                                    <rect key="frame" x="197" y="73" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="BgH-Y5-hPR"/>
+                                                        <constraint firstAttribute="height" constant="20" id="LGn-sl-4ZG"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="eAT-o6-YBD" firstAttribute="centerX" secondItem="gze-R2-yev" secondAttribute="centerX" id="G4y-Dn-ZBt"/>
                                                 <constraint firstItem="IEC-vx-GF8" firstAttribute="centerY" secondItem="gze-R2-yev" secondAttribute="centerY" id="Jpt-vu-6dw"/>
                                                 <constraint firstItem="IEC-vx-GF8" firstAttribute="width" secondItem="gze-R2-yev" secondAttribute="width" multiplier="0.9" id="K3j-qh-fjE"/>
+                                                <constraint firstItem="eAT-o6-YBD" firstAttribute="top" secondItem="IEC-vx-GF8" secondAttribute="bottom" id="W9v-XQ-N62"/>
                                                 <constraint firstItem="IEC-vx-GF8" firstAttribute="centerX" secondItem="gze-R2-yev" secondAttribute="centerX" id="uR2-mS-YRi"/>
-                                                <constraint firstItem="IEC-vx-GF8" firstAttribute="height" secondItem="gze-R2-yev" secondAttribute="height" multiplier="0.9" id="w9c-E8-Wpr"/>
+                                                <constraint firstItem="IEC-vx-GF8" firstAttribute="height" secondItem="gze-R2-yev" secondAttribute="height" multiplier="0.5" id="w9c-E8-Wpr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="arrowImage" destination="eAT-o6-YBD" id="cad-Lr-UYh"/>
                                             <outlet property="overviewLabel" destination="IEC-vx-GF8" id="Coz-IV-zMR"/>
                                         </connections>
                                     </tableViewCell>

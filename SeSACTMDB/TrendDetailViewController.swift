@@ -18,6 +18,7 @@ class TrendDetailViewController: UIViewController {
     var creditDetail: [[Credits]] = []
     var movieNum: Int = 0
     var header = ["OverView","Cast","Credit"]
+    var isExpanded = false
     
     @IBOutlet weak var posterView: UIImageView!
     @IBOutlet weak var trendTableView: UITableView!
@@ -38,7 +39,6 @@ class TrendDetailViewController: UIViewController {
     }
     
     func designDetail(){
-        let index = UserDefaults.standard.integer(forKey: "index")
         let urlPlus1 = "\(EndPoint.profileURL)\(movieDetail[movieNum].movieBackground)"
         guard let url1 = URL(string: urlPlus1) else { return }
         backImageView.kf.setImage(with: url1)
@@ -88,6 +88,12 @@ class TrendDetailViewController: UIViewController {
             cell.overviewLabel.text = movieDetail[movieNum].overView
             cell.overviewLabel.font = .systemFont(ofSize: 12)
             cell.overviewLabel.numberOfLines = 0
+            cell.overviewLabel.numberOfLines = isExpanded ? 0 : 2
+            cell.arrowImage.tintColor = .black
+            cell.arrowImage.image = UIImage(systemName: "chevron.down")
+
+//            tableView.rowHeight = isExpanded ? UITableView.automaticDimension : 100
+           
             return cell
         } else if indexPath.section == 1 {
             
@@ -140,6 +146,14 @@ class TrendDetailViewController: UIViewController {
             return cell
         }
         return UITableViewCell()
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0{
+            isExpanded = !isExpanded
+            tableView.reloadData()
+            
+        }
     }
      
 

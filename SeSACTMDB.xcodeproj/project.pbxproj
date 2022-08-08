@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1804C030289E5FE300E25353 /* OverviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1804C02F289E5FE300E25353 /* OverviewTableViewCell.swift */; };
+		184B9B9528A0CFDE0076983A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184B9B9428A0CFDE0076983A /* APIManager.swift */; };
 		1876B4D82899F6E2002543B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B4D72899F6E2002543B6 /* AppDelegate.swift */; };
 		1876B4DA2899F6E2002543B6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B4D92899F6E2002543B6 /* SceneDelegate.swift */; };
 		1876B4DC2899F6E2002543B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B4DB2899F6E2002543B6 /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		1804C02F289E5FE300E25353 /* OverviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewTableViewCell.swift; sourceTree = "<group>"; };
+		184B9B9428A0CFDE0076983A /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		1876B4D42899F6E2002543B6 /* SeSACTMDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACTMDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1876B4D72899F6E2002543B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1876B4D92899F6E2002543B6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 		1876B4D62899F6E2002543B6 /* SeSACTMDB */ = {
 			isa = PBXGroup;
 			children = (
+				184B9B9428A0CFDE0076983A /* APIManager.swift */,
 				1876B4EF2899F9BD002543B6 /* Constant.swift */,
 				1876B4ED2899F890002543B6 /* APIKey.swift */,
 				1876B4D72899F6E2002543B6 /* AppDelegate.swift */,
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184B9B9528A0CFDE0076983A /* APIManager.swift in Sources */,
 				1876B507289AC8ED002543B6 /* TrendViewController.swift in Sources */,
 				1876B532289BFD18002543B6 /* TrendDetailViewController.swift in Sources */,
 				1876B4DC2899F6E2002543B6 /* ViewController.swift in Sources */,

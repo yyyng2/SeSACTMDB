@@ -13,6 +13,9 @@ import SwiftyJSON
 
 class OverviewTableViewCell: UITableViewCell {
 
+
+
+    @IBOutlet weak var arrowImage: UIImageView!
     @IBOutlet weak var overviewLabel: UILabel!
     static let identifier = "OverviewTableViewCell"
     override func awakeFromNib() {

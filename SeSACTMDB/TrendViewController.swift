@@ -20,7 +20,7 @@ class TrendViewController: UIViewController {
     
         trendCollectionView.delegate = self
         trendCollectionView.dataSource = self
-        
+        trendCollectionView.prefetchDataSource = self
         
         trendCollectionView.layer.cornerRadius = 10
         trendCollectionView.clipsToBounds = true
@@ -45,8 +45,12 @@ class TrendViewController: UIViewController {
     var crewAll: [[Credits]] = []
     var youtubeURL: [Youtube] = []
     var youtubeAll: [[Youtube]] = []
+    var startPage = 1
+    var totalPage = 1000
+
     
     func designSearchBar(){
+        //서치바 네비게이션바에 넣기
 //        let bounds = UIScreen.main.bounds
 //        let width = bounds.size.width
 //        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width - 28, height: 0))
@@ -58,123 +62,184 @@ class TrendViewController: UIViewController {
     }
  
     func getMedia(){
-        let url = "\(EndPoint.tmdbURL)api_key=\(APIKey.TMDBKEY)"
         
-        AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
-            switch response.result{
-            case .success(let value):
-                let json = JSON(value)
+        TrendAPIManager.shared.getMedia(startPage: startPage) { json in
+            for data in json["results"].arrayValue{
 
-                
-                for data in json["results"].arrayValue{
+                let name = data["original_title"].stringValue
+                let id = data["id"].intValue
+                let release = data["release_date"].stringValue
+                let vote = data["vote_average"].doubleValue
+                let poster = data["poster_path"].stringValue
+                let overView = data["overview"].stringValue
+                let backPoster = data["backdrop_path"].stringValue
+                let genreNum = data["genre_ids"][0].intValue
+    
+                guard let rawValue = Genre(rawValue: genreNum) else { return }
+                let genre = "\(rawValue)"
 
-                    let name = data["original_title"].stringValue
-                    let id = data["id"].intValue
-                    let release = data["release_date"].stringValue
-                    let vote = data["vote_average"].doubleValue
-                    let poster = data["poster_path"].stringValue
-                    let overView = data["overview"].stringValue
-                    let backPoster = data["backdrop_path"].stringValue
-                    let genreNum = data["genre_ids"][0].intValue
-        
-                    guard let rawValue = Genre(rawValue: genreNum) else { return }
-                    let genre = "\(rawValue)"
-   
-                    self.movieList.append(Movie(movieName: name, movieID: id, movieRelease: release, moviePoster: poster, movieVoteAverage: vote, movieGenre: genre, movieBackground: backPoster, overView: overView))
-                    
-                }
-                self.getYoutubeURL()
-                self.getCasts()
-            case .failure(let error):
-                print(error)
+                self.movieList.append(Movie(movieName: name, movieID: id, movieRelease: release, moviePoster: poster, movieVoteAverage: vote, movieGenre: genre, movieBackground: backPoster, overView: overView))
                 
             }
+            self.getYoutubeURL()
+            self.getCasts()
         }
+        
+//        let url = "\(EndPoint.tmdbURL)api_key=\(APIKey.TMDBKEY)&page=\(startPage)"
+//
+//        AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
+//            switch response.result{
+//            case .success(let value):
+//                let json = JSON(value)
+//
+//
+//                for data in json["results"].arrayValue{
+//
+//                    let name = data["original_title"].stringValue
+//                    let id = data["id"].intValue
+//                    let release = data["release_date"].stringValue
+//                    let vote = data["vote_average"].doubleValue
+//                    let poster = data["poster_path"].stringValue
+//                    let overView = data["overview"].stringValue
+//                    let backPoster = data["backdrop_path"].stringValue
+//                    let genreNum = data["genre_ids"][0].intValue
+//
+//                    guard let rawValue = Genre(rawValue: genreNum) else { return }
+//                    let genre = "\(rawValue)"
+//
+//                    self.movieList.append(Movie(movieName: name, movieID: id, movieRelease: release, moviePoster: poster, movieVoteAverage: vote, movieGenre: genre, movieBackground: backPoster, overView: overView))
+//
+//                }
+//                self.getYoutubeURL()
+//                self.getCasts()
+//            case .failure(let error):
+//                print(error)
+//
+//            }
+//        }
     }
   
     func getCasts(){
-        for i in 0...(movieList.count - 1){
-            let url = "\(EndPoint.castsURL)\(movieList[i].movieID)/credits?api_key=\(APIKey.TMDBKEY)"
-
-            AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
-                switch response.result{
-                case .success(let value):
-                    self.castList.removeAll()
-                    self.crewList.removeAll()
-                    let json = JSON(value)
-                    //print("JSON: \(json)")
-                    
-                    for data in json["cast"].arrayValue{
-                        
-                        let castName = data["name"].stringValue
-                        let castProfile = data["profile_path"].stringValue
-                        let char = data["character"].stringValue
-                        
-                        self.castList.append(Casts(castName: castName, character: char, profile: castProfile))
-                        
-                    }
-                    self.castAll.append(self.castList)
-
-                    for data in json["crew"].arrayValue{
-
-                        let crewName = data["name"].stringValue
-                        let crewProfile = data["profile_path"].stringValue
-                        let job = data["department"].stringValue
-   
-                        self.crewList.append(Credits(crewName: crewName, job: job, profile: crewProfile))
-                    }
-                    self.crewAll.append(self.crewList)
-                    
-
-
-                case .failure(let error):
-                    print(error)
-
-                }
+        
+        CreditsAPIManager.shared.getCasts(movieList: movieList) { json in
+            self.castList.removeAll()
+            self.crewList.removeAll()
+            
+            for data in json["cast"].arrayValue{
+                
+                let castName = data["name"].stringValue
+                let castProfile = data["profile_path"].stringValue
+                let char = data["character"].stringValue
+                
+                self.castList.append(Casts(castName: castName, character: char, profile: castProfile))
+                
             }
+            self.castAll.append(self.castList)
+
+            for data in json["crew"].arrayValue{
+
+                let crewName = data["name"].stringValue
+                let crewProfile = data["profile_path"].stringValue
+                let job = data["department"].stringValue
+
+                self.crewList.append(Credits(crewName: crewName, job: job, profile: crewProfile))
+            }
+            self.crewAll.append(self.crewList)
 
         }
+        
+//        for i in 0...(movieList.count - 1){
+//            let url = "\(EndPoint.castsURL)\(movieList[i].movieID)/credits?api_key=\(APIKey.TMDBKEY)"
+//
+//            AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
+//                switch response.result{
+//                case .success(let value):
+//                    self.castList.removeAll()
+//                    self.crewList.removeAll()
+//                    let json = JSON(value)
+//                    //print("JSON: \(json)")
+//
+//                    for data in json["cast"].arrayValue{
+//
+//                        let castName = data["name"].stringValue
+//                        let castProfile = data["profile_path"].stringValue
+//                        let char = data["character"].stringValue
+//
+//                        self.castList.append(Casts(castName: castName, character: char, profile: castProfile))
+//
+//                    }
+//                    self.castAll.append(self.castList)
+//
+//                    for data in json["crew"].arrayValue{
+//
+//                        let crewName = data["name"].stringValue
+//                        let crewProfile = data["profile_path"].stringValue
+//                        let job = data["department"].stringValue
+//
+//                        self.crewList.append(Credits(crewName: crewName, job: job, profile: crewProfile))
+//                    }
+//                    self.crewAll.append(self.crewList)
+//
+//                }
+//            }
+//
+//        }
     }
     
     func getYoutubeURL(){
-        for i in 0...(movieList.count - 1){
-            let url = "\(EndPoint.youtubeURL)\(movieList[i].movieID)/videos?api_key=\(APIKey.TMDBKEY)&language=en-US"
         
-            AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
-                switch response.result{
-                case .success(let value):
-                    self.youtubeURL.removeAll()
+        YoutubeAPIManager.shared.getYoutubeURL(movieList: movieList) { json in
+            self.youtubeURL.removeAll()
 
-                    let json = JSON(value)
-                    print(json["results"].arrayValue)
-//                    let videoKey = json["results"].arrayValue.map { $0["key"].stringValue }
-//                    print(videoKey)
-                    for data in json["results"].arrayValue{
+            for data in json["results"].arrayValue{
 
-                       
-                        if data["site"].stringValue == "YouTube"{
-                            let videoKey = data["key"].stringValue
-                            self.youtubeURL.append(Youtube(youtubeURL: videoKey))
-                        }
-                        
-                    }
-                    self.youtubeAll.append( self.youtubeURL)
-
-                    self.trendCollectionView.reloadData()
-
-                case .failure(let error):
-                    print(error)
-
+                if data["site"].stringValue == "YouTube"{
+                    let videoKey = data["key"].stringValue
+                    self.youtubeURL.append(Youtube(youtubeURL: videoKey))
                 }
-            }
 
+            }
+            self.youtubeAll.append( self.youtubeURL)
+            self.trendCollectionView.reloadData()
         }
+        
+//        for i in 0...(movieList.count - 1){
+//            let url = "\(EndPoint.youtubeURL)\(movieList[i].movieID)/videos?api_key=\(APIKey.TMDBKEY)&language=en-US"
+//
+//            AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
+//                switch response.result{
+//                case .success(let value):
+//                    self.youtubeURL.removeAll()
+//
+//                    let json = JSON(value)
+//                    print(json["results"].arrayValue)
+//
+//                    for data in json["results"].arrayValue{
+//
+//
+//                        if data["site"].stringValue == "YouTube"{
+//                            let videoKey = data["key"].stringValue
+//                            self.youtubeURL.append(Youtube(youtubeURL: videoKey))
+//                        }
+//
+//                    }
+//                    self.youtubeAll.append( self.youtubeURL)
+//
+//                    self.trendCollectionView.reloadData()
+//
+//                case .failure(let error):
+//                    print(error)
+//
+//                }
+//            }
+//
+//        }
     }
     
 }
 
 
-extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching{
+extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movieList.count
     }
@@ -289,13 +354,25 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if movieList.count - 1 == indexPath.item && movieList.count < totalPage{
+
+                startPage += 1
+
+                getMedia()
+            }
+        }
         print("===pagination===")
     }
+    
+
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         print("===cancel===")
     }
  
 }
+
+
 
 extension TrendViewController: UISearchBarDelegate{
     
