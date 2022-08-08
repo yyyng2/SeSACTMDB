@@ -25,6 +25,39 @@ class TrendCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var clipView: UIView!
     @IBOutlet weak var clipButton: UIButton!
     
-
+    func cellConfigure(){
+        posterView.layer.cornerRadius = 10
+        posterView.layer.cornerRadius = 10
+        posterView.clipsToBounds = true
+        posterView.backgroundColor = .clear
+        posterView.layer.masksToBounds = true
+        posterView.layer.cornerRadius = 10
+        rateView.layer.shadowOpacity = 0.8
+        rateView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        rateView.layer.shadowRadius = 5
+        infoView.layer.cornerRadius = 10
+        infoView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        rateTextLabel.layer.cornerRadius = 5
+        rateTextLabel.clipsToBounds = true
+        rateTextLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        rateValueLabel.layer.cornerRadius = 5
+        rateValueLabel.clipsToBounds = true
+        rateValueLabel.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        posterView.contentMode = .scaleAspectFill
+        infoView.backgroundColor = .white
+        rateTextLabel.textAlignment = .center
+        rateTextLabel.textColor = .white
+        rateTextLabel.backgroundColor = .black
+        rateValueLabel.textAlignment = .center
+        rateValueLabel.backgroundColor = .white
+        clipButton.backgroundColor = .clear
+        clipButton.tintColor = .black
+        clipButton.contentMode = .scaleAspectFit
+        clipView.backgroundColor = .white
+        clipView.layer.cornerRadius = clipView.frame.width / 2
+        showdetailImageView.tintColor = .black
+        blackLineView.backgroundColor = .black
+        movieCredtisLabel.textColor = .systemGray
+    }
     
 }

@@ -108,14 +108,19 @@ class TrendDetailViewController: UIViewController {
                 cell.profileImage.image = UIImage(named: image)
             } else {
                 let profile = castDetail[movieNum][indexPath.row].profile
-
-                let urlPlus = "\(EndPoint.profileURL)\(profile)"
-                let url = URL(string: urlPlus)
+                if profile == ""{
+                    let image = "user.png"
+                    cell.profileImage.image = UIImage(named: image)
+                } else {
+                    let urlPlus = "\(EndPoint.profileURL)\(profile)"
+                    let url = URL(string: urlPlus)
+                    cell.profileImage.kf.setImage(with: url)
+                }
+                
         
-                let image = "user.png"
-                cell.profileImage.kf.setImage(with: url)
+                
+                
             }
-            
 
             cell.castNameLabel.text = castDetail[movieNum][indexPath.row].castName
             cell.charNameLabel.text = castDetail[movieNum][indexPath.row].character
@@ -132,16 +137,23 @@ class TrendDetailViewController: UIViewController {
                 let image = "user.png"
                 cell.profileImage.image = UIImage(named: image)
             } else {
-//                let profile = creditAll[indexPath.section][indexPath.item].profile
-//                let urlPlus = "https://www.themoviedb.org/t/p/w1280\(profile)"
-//                let url = URL(string: urlPlus)
-//                print("\(url)success")
-                let image = "user.png"
-//                cell.profileImage.kf.setImage(with: url)
-            }
+                let profile = creditDetail[movieNum][indexPath.row].profile
+                if profile == ""{
+                    let image = "user.png"
+                    cell.profileImage.image = UIImage(named: image)
+                } else {
+                    let urlPlus = "\(EndPoint.profileURL)\(profile)"
+                    let url = URL(string: urlPlus)
+                    cell.profileImage.kf.setImage(with: url)
+                }
+                
         
-//            cell.castNameLabel.text = creditAll[indexPath.section][indexPath.item].crewName
-//            cell.charNameLabel.text = creditAll[indexPath.section][indexPath.item].job
+                
+                
+            }
+
+            cell.castNameLabel.text = creditDetail[movieNum][indexPath.row].crewName
+            cell.charNameLabel.text = creditDetail[movieNum][indexPath.row].job
 
             return cell
         }

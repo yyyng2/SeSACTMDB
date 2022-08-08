@@ -18,21 +18,7 @@ class TrendViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        trendCollectionView.delegate = self
-        trendCollectionView.dataSource = self
-        trendCollectionView.prefetchDataSource = self
-        
-        trendCollectionView.layer.cornerRadius = 10
-        trendCollectionView.clipsToBounds = true
-        let layer = UICollectionViewFlowLayout()
-        let spacing: CGFloat = 4
-        let witdh = UIScreen.main.bounds.width - (spacing * 2)
-        layer.itemSize = CGSize(width: witdh, height: witdh * 1.2)
-        layer.scrollDirection = .vertical
-        layer.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
-        layer.minimumLineSpacing = spacing
-        layer.minimumInteritemSpacing = spacing
-        trendCollectionView.collectionViewLayout = layer
+        viewConfigure()
         getMedia()
         designSearchBar()
 
@@ -59,6 +45,24 @@ class TrendViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", image: UIImage(systemName: "list.triangle"))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", image: UIImage(systemName: "magnifyingglass"))
                                                                 // , primaryAction: <#T##UIAction?#>, menu: <#T##UIMenu?#>)
+    }
+    
+    func viewConfigure(){
+        trendCollectionView.delegate = self
+        trendCollectionView.dataSource = self
+        trendCollectionView.prefetchDataSource = self
+        
+        trendCollectionView.layer.cornerRadius = 10
+        trendCollectionView.clipsToBounds = true
+        let layer = UICollectionViewFlowLayout()
+        let spacing: CGFloat = 4
+        let witdh = UIScreen.main.bounds.width - (spacing * 2)
+        layer.itemSize = CGSize(width: witdh, height: witdh * 1.2)
+        layer.scrollDirection = .vertical
+        layer.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+        layer.minimumLineSpacing = spacing
+        layer.minimumInteritemSpacing = spacing
+        trendCollectionView.collectionViewLayout = layer
     }
  
     func getMedia(){
@@ -123,7 +127,7 @@ class TrendViewController: UIViewController {
         
         CreditsAPIManager.shared.getCasts(movieList: movieList) { json in
             self.castList.removeAll()
-            self.crewList.removeAll()
+            
             
             for data in json["cast"].arrayValue{
                 
@@ -135,7 +139,11 @@ class TrendViewController: UIViewController {
                 
             }
             self.castAll.append(self.castList)
-
+        }
+        
+        CreditsAPIManager.shared.getCasts(movieList: movieList) { json in
+            self.crewList.removeAll()
+            
             for data in json["crew"].arrayValue{
 
                 let crewName = data["name"].stringValue
@@ -247,23 +255,8 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendCollectionViewCell.identifier, for: indexPath) as? TrendCollectionViewCell else { return UICollectionViewCell() }
-        cell.posterView.layer.cornerRadius = 10
-        cell.posterView.clipsToBounds = true
-        cell.posterView.backgroundColor = .clear
-        cell.posterView.layer.masksToBounds = true
+        cell.cellConfigure()
         cell.backgroundColor = .clear
-        cell.posterView.layer.cornerRadius = 10
-        cell.rateView.layer.shadowOpacity = 0.8
-        cell.rateView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cell.rateView.layer.shadowRadius = 5
-        cell.infoView.layer.cornerRadius = 10
-        cell.infoView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        cell.rateTextLabel.layer.cornerRadius = 5
-        cell.rateTextLabel.clipsToBounds = true
-        cell.rateTextLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        cell.rateValueLabel.layer.cornerRadius = 5
-        cell.rateValueLabel.clipsToBounds = true
-        cell.rateValueLabel.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         cell.releaseLabel.text = movieList[indexPath.item].movieRelease
         cell.releaseLabel.font = .systemFont(ofSize: 13)
         cell.releaseLabel.textColor = .systemGray
@@ -272,23 +265,15 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let urlPlus = "\(EndPoint.profileURL)\(movieList[indexPath.item].moviePoster)"
         guard let url = URL(string: urlPlus) else { return UICollectionViewCell() }
         cell.posterView.kf.setImage(with: url)
-        cell.posterView.contentMode = .scaleAspectFill
-        cell.infoView.backgroundColor = .white
+        
         cell.rateTextLabel.text = "평점"
-        cell.rateTextLabel.textAlignment = .center
-        cell.rateTextLabel.textColor = .white
-        cell.rateTextLabel.backgroundColor = .black
+        
         cell.rateValueLabel.text = String(format: "%.1f", movieList[indexPath.item].movieVoteAverage)
-        cell.rateValueLabel.textAlignment = .center
-        cell.rateValueLabel.backgroundColor = .white
+        
         cell.movieNameLabel.text = movieList[indexPath.item].movieName
         cell.clipButton.setImage(UIImage(named: "clip.png"), for: .normal)
         cell.clipButton.setTitle("", for: .normal)
-        cell.clipButton.backgroundColor = .clear
-        cell.clipButton.tintColor = .black
-        cell.clipButton.contentMode = .scaleAspectFit
-        cell.clipView.backgroundColor = .white
-        cell.clipView.layer.cornerRadius = cell.clipView.frame.width / 2
+        
 
         
        
@@ -304,11 +289,10 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
                }
         }
         
-        cell.movieCredtisLabel.textColor = .systemGray
+        
         cell.showDetailLabel.text = "Details"
         cell.showdetailImageView.image = UIImage(systemName: "chevron.right")
-        cell.showdetailImageView.tintColor = .black
-        cell.blackLineView.backgroundColor = .black
+        
  
         cell.clipButton.addTarget(self, action: #selector(clipButtonTapped), for: .touchUpInside)
         cell.clipButton.tag = indexPath.row
