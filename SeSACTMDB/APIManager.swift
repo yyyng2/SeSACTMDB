@@ -12,7 +12,7 @@ import SwiftyJSON
 class TrendAPIManager{
     static let shared = TrendAPIManager()
     
-    init (){}
+    private init () {}
     
     func getMedia(startPage: Int, completionHandler: @escaping (JSON) -> ()){
         
@@ -35,7 +35,7 @@ class TrendAPIManager{
 
 class CreditsAPIManager{
     static let shared = CreditsAPIManager()
-    init () {}
+    private init () {}
     
     func getCasts(movieList: [Movie], completionHandler: @escaping (JSON) -> ()){
         for i in 0...(movieList.count - 1){
@@ -60,7 +60,7 @@ class CreditsAPIManager{
 
 class YoutubeAPIManager{
     static let shared = YoutubeAPIManager()
-    init(){}
+    private init () {}
     
     func getYoutubeURL(movieList: [Movie], completionHandler: @escaping (JSON) -> ()){
         for i in 0...(movieList.count - 1){
@@ -79,5 +79,31 @@ class YoutubeAPIManager{
             }
 
         }
+    }
+}
+
+class SimilarAPIManager{
+    static let shared = SimilarAPIManager()
+    private init () {}
+    
+    func getSimilarURL(movieList: [Movie], completionHandler: @escaping (JSON) -> ()){
+        for i in 0...(movieList.count - 1){
+            
+            let url = "\(EndPoint.similar)\(movieList[i].movieID)/recommendations?api_key=\(APIKey.TMDBKEY)&language=en-US&page=1"
+            AF.request(url, method: .get).validate(statusCode: 200..<300).responseData { response in
+                switch response.result{
+                case .success(let value):
+                    let json = JSON(value)
+                    completionHandler(json)
+
+                case .failure(let error):
+                    print(error)
+
+                }
+            }
+            
+            
+        }
+     
     }
 }
