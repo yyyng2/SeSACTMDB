@@ -32,6 +32,8 @@
 		1876B530289BFCFC002543B6 /* TrendDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1876B52F289BFCFC002543B6 /* TrendDetail.storyboard */; };
 		1876B532289BFD18002543B6 /* TrendDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B531289BFD18002543B6 /* TrendDetailViewController.swift */; };
 		1876B53D289C209A002543B6 /* CastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876B53B289C209A002543B6 /* CastTableViewCell.swift */; };
+		188E863D28A4D23800FC13E1 /* TheaterLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188E863C28A4D23800FC13E1 /* TheaterLocationViewController.swift */; };
+		188E863F28A4D24500FC13E1 /* TheaterLocation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 188E863E28A4D24500FC13E1 /* TheaterLocation.storyboard */; };
 		18E95EF5289EF803009E748D /* Media.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E95EF4289EF803009E748D /* Media.storyboard */; };
 		18E95EF7289EF876009E748D /* WebMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E95EF6289EF876009E748D /* WebMediaViewController.swift */; };
 /* End PBXBuildFile section */
@@ -61,6 +63,8 @@
 		1876B52F289BFCFC002543B6 /* TrendDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TrendDetail.storyboard; sourceTree = "<group>"; };
 		1876B531289BFD18002543B6 /* TrendDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendDetailViewController.swift; sourceTree = "<group>"; };
 		1876B53B289C209A002543B6 /* CastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTableViewCell.swift; sourceTree = "<group>"; };
+		188E863C28A4D23800FC13E1 /* TheaterLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterLocationViewController.swift; sourceTree = "<group>"; };
+		188E863E28A4D24500FC13E1 /* TheaterLocation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TheaterLocation.storyboard; sourceTree = "<group>"; };
 		18E95EF4289EF803009E748D /* Media.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Media.storyboard; sourceTree = "<group>"; };
 		18E95EF6289EF876009E748D /* WebMediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebMediaViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +124,8 @@
 				1876B531289BFD18002543B6 /* TrendDetailViewController.swift */,
 				1876B53B289C209A002543B6 /* CastTableViewCell.swift */,
 				1804C02F289E5FE300E25353 /* OverviewTableViewCell.swift */,
+				188E863E28A4D24500FC13E1 /* TheaterLocation.storyboard */,
+				188E863C28A4D23800FC13E1 /* TheaterLocationViewController.swift */,
 				1876B4E02899F6E4002543B6 /* Assets.xcassets */,
 				1876B4E22899F6E4002543B6 /* LaunchScreen.storyboard */,
 				1876B4E52899F6E4002543B6 /* Info.plist */,
@@ -198,6 +204,7 @@
 				1876B4FF289AC14B002543B6 /* Trend.storyboard in Resources */,
 				187554DF28A250E6000DA3E4 /* CardCollectionViewCell.xib in Resources */,
 				1876B4EC2899F7D2002543B6 /* .gitignore in Resources */,
+				188E863F28A4D24500FC13E1 /* TheaterLocation.storyboard in Resources */,
 				187554D728A24A75000DA3E4 /* CardView.xib in Resources */,
 				1876B4E42899F6E4002543B6 /* LaunchScreen.storyboard in Resources */,
 				1876B530289BFCFC002543B6 /* TrendDetail.storyboard in Resources */,
@@ -225,6 +232,7 @@
 				18E95EF7289EF876009E748D /* WebMediaViewController.swift in Sources */,
 				1876B4EE2899F890002543B6 /* APIKey.swift in Sources */,
 				187554DB28A24B95000DA3E4 /* MainTableViewCell.swift in Sources */,
+				188E863D28A4D23800FC13E1 /* TheaterLocationViewController.swift in Sources */,
 				1876B53D289C209A002543B6 /* CastTableViewCell.swift in Sources */,
 				1876B51B289BB38A002543B6 /* TrendCollectionViewCell.swift in Sources */,
 				187554DE28A250E6000DA3E4 /* CardCollectionViewCell.swift in Sources */,
