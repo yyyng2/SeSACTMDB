@@ -22,12 +22,13 @@ class TheaterLocationViewController: UIViewController {
         locationManager.delegate = self
         configureNavigationItem()
         setTheaterAnnotation(theater: "All")
-        setRegionAndAnnotation(center: center, title: "영등포 캠퍼스")
+        
     }
     
     func configureNavigationItem(){
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Filter", style: .plain, target: self, action: #selector(mapFilter))
     }
+    
     @objc func mapFilter(){
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "LotteCinema", style: .default, handler: { UIAlertAction in
@@ -114,11 +115,12 @@ extension TheaterLocationViewController {
                locationManager.requestWhenInUseAuthorization()
            case .restricted, .denied:
                showRequestLocationServiceAlert()
+               setRegionAndAnnotation(center: center, title: "영등포 캠퍼스")
            case .authorizedWhenInUse:
                locationManager.startUpdatingLocation()
            default: print("Default")
            }
-       }
+    }
        
     func showRequestLocationServiceAlert() {
          let requestLocationServiceAlert = UIAlertController(title: "위치정보 이용", message: "위치 서비스를 사용할 수 없습니다. 기기의 '설정>개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
@@ -132,7 +134,7 @@ extension TheaterLocationViewController {
          requestLocationServiceAlert.addAction(goSetting)
          
          present(requestLocationServiceAlert, animated: true, completion: nil)
-       }
+    }
     
 }
 
