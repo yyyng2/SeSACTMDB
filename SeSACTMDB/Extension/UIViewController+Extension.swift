@@ -14,15 +14,14 @@ extension UIViewController{
         case push
     }
     
-    func transitionViewController<T: UIViewController>(storyboard: String, ViewController vc: T, transitionStyle: TransitionStyle) {
+    func transitionViewController<T: UIViewController>(storyboard: String, ViewController vc: T, transitionStyle: TransitionStyle, Handler: @escaping (T) -> ()) {
         let sb = UIStoryboard(name: storyboard, bundle: nil)
-        
+        guard let controller = sb.instantiateViewController(withIdentifier: T.reuseIdentifier) as? T else { return }
+        Handler(controller)
         switch transitionStyle {
         case .present:
-            guard let controller = sb.instantiateViewController(withIdentifier: T.reuseIdentifier) as? T else { return }
             self.present(controller, animated: true)
         case .push:
-            guard let controller = sb.instantiateViewController(withIdentifier: T.reuseIdentifier) as? T else { return }
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }

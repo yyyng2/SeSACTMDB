@@ -23,8 +23,6 @@ class TrendViewController: UIViewController {
         designSearchBar()
 
     }
-    
-    var handler: ((String) -> (String))?
 
     var movieList: [Movie] = []
     var crewList: [Credits] = []
@@ -308,12 +306,18 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
 //        guard let webMediaViewController = MediaStoryBoard.instantiateViewController(withIdentifier:  WebMediaViewController.identifier) as? WebMediaViewController else {
 //            return
 //        }
+        //self.vc.youtubeNum = sender.tag
 //        _ = handler?(self.youtubeString ?? "\(EndPoint.youtube2)\(youtubeAll[sender.tag][0].youtubeURL)")
-        WebMediaViewController.youtubeNum = sender.tag
-        WebMediaViewController.youtubeAll = youtubeAll
+//        WebMediaViewController.youtubeHandler?("\(EndPoint.youtube2)\(youtubeAll[sender.tag][0].youtubeURL)")
+//        WebMediaViewController.youtubeNum = sender.tag
+//        WebMediaViewController.youtubeAll = youtubeAll
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.backButtonTitle = ""
-        transitionViewController(storyboard: "Media", ViewController: WebMediaViewController(), transitionStyle: .push)
+        transitionViewController(storyboard: "Media", ViewController: WebMediaViewController(), transitionStyle: .push){ vc in
+            vc.youtubeNum = sender.tag
+            vc.youtubeAll = self.youtubeAll
+        }
+        
        
      
     }
