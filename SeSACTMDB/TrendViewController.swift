@@ -23,6 +23,8 @@ class TrendViewController: UIViewController {
         designSearchBar()
 
     }
+    
+    var handler: ((String) -> (String))?
 
     var movieList: [Movie] = []
     var crewList: [Credits] = []
@@ -302,15 +304,17 @@ extension TrendViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     @objc func clipButtonTapped(sender: UIButton){
         
-        let MediaStoryBoard = UIStoryboard(name: "Media", bundle: nil)
-        guard let webMediaViewController = MediaStoryBoard.instantiateViewController(withIdentifier:  WebMediaViewController.identifier) as? WebMediaViewController else {
-            return
-        }
-        webMediaViewController.youtubeNum = sender.tag
-        webMediaViewController.youtubeAll = youtubeAll
+//        let MediaStoryBoard = UIStoryboard(name: "Media", bundle: nil)
+//        guard let webMediaViewController = MediaStoryBoard.instantiateViewController(withIdentifier:  WebMediaViewController.identifier) as? WebMediaViewController else {
+//            return
+//        }
+//        _ = handler?(self.youtubeString ?? "\(EndPoint.youtube2)\(youtubeAll[sender.tag][0].youtubeURL)")
+        WebMediaViewController.youtubeNum = sender.tag
+        WebMediaViewController.youtubeAll = youtubeAll
         self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.pushViewController(webMediaViewController, animated: true)
         self.navigationItem.backButtonTitle = ""
+        transitionViewController(storyboard: "Media", ViewController: WebMediaViewController(), transitionStyle: .push)
+       
      
     }
     
