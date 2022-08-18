@@ -19,15 +19,16 @@ class WebMediaViewController: UIViewController {
 //        if self.youtubeAll.count - 1 >= self.youtubeNum{ self.getYoutube() }
 //        print("\(youtubeAll)aasdf")
         getYoutube()
-        print(youtubeNum)
+        print(WebMediaViewController.youtubeNum)
     }
-    var youtubeURL: [Youtube] = []
-    var youtubeAll: [[Youtube]] = []
-    var youtubeNum: Int = 0
+    static var youtubeURL: [Youtube] = []
+    static var youtubeAll: [[Youtube]] = []
+    static var youtubeNum: Int = 0
+    var youtubeString: String = ""
     
     func getYoutube(){
-        guard let url = URL(string: "\(EndPoint.youtube2)\(youtubeAll[youtubeNum][0].youtubeURL)") else { return  }
-        print(youtubeAll[youtubeNum][0].youtubeURL)
+        guard let url = URL(string: "\(EndPoint.youtube2)\(WebMediaViewController.youtubeAll[WebMediaViewController.youtubeNum][0].youtubeURL)") else { return  }
+//        print(youtubeAll[youtubeNum][0].youtubeURL)
         let request = URLRequest(url: url)
 //        if self.youtubeURL.count - 1 >= self.youtubeNum{ getYoutube() }
         youtubeWebView.load(request)
